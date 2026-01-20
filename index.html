@@ -69,7 +69,6 @@
             height: 200px; 
             object-fit: contain; 
             margin-bottom: 10px;
-            /* Placeholder styling will be visible due to broken link */
             background-color: #eee; 
             border: 1px dashed #ccc;
             display: block; 
@@ -82,8 +81,6 @@
         .price { font-weight: bold; color: #B12704; font-size: 1.3em; margin: 10px 0; }
         .rating { color: var(--primary-color); font-size: 0.9em; margin-bottom: 5px; }
         .stock { font-size: 0.9em; margin-bottom: 10px; font-weight: bold; }
-        .stock.in { color: var(--secondary-color); }
-        .stock.low { color: #cc0000; }
         
         /* Buttons */
         button { 
@@ -101,41 +98,18 @@
         button:hover { opacity: 0.9; }
 
         /* Cart/Checkout */
-        #sidebar-cart h2 { border-bottom: 2px solid #eee; padding-bottom: 10px; }
         .cart-item-list { list-style: none; padding: 0; margin: 10px 0; font-size: 0.9em; }
         .cart-item-list li { margin-bottom: 5px; display: flex; justify-content: space-between; }
         .total-line { display: flex; justify-content: space-between; font-size: 1.1em; padding-top: 10px; border-top: 1px dashed #ccc; }
         .grand-total { font-weight: bold; font-size: 1.6em; color: #B12704; margin-top: 10px; }
 
-        /* Filter Placeholder */
-        #filter-sidebar { background: white; padding: 20px; border-radius: 4px; box-shadow: var(--card-shadow); margin-bottom: 20px; }
-        #filter-sidebar h3 { margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-
-        /* New Email Form Styling (To distinguish it from checkout form) */
-        .simple-email-form {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px solid #ccc;
-        }
-        .simple-email-form h3 {
-            margin-bottom: 15px;
-            font-size: 1.2em;
-        }
-        .simple-email-form input[type="email"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            box-sizing: border-box;
-        }
-        .simple-email-form button {
-            background-color: #4CAF50; /* Green button for distinction */
+        .checkout-btn {
+            background-color: #4CAF50; 
+            color: white;
             border: 1px solid #388E3C;
+            margin-top: 15px;
         }
-        .simple-email-form button:hover {
-             background-color: #388E3C;
-        }
+        .checkout-btn:hover { background-color: #388E3C; }
     </style>
 </head>
 <body>
@@ -147,99 +121,60 @@
     <div class="container">
         
         <div id="main-content">
-            
-            <section id="filter-sidebar">
-                <h3>🔍 Sports Collectibles Search</h3>
-                <p>Category: <select><option>Shoes</option><option>Apparel</option><option>Equipment</option></select> | 
-                Price Range: <input type="number" placeholder="Min" style="width: 50px;"> - <input type="number" placeholder="Max" style="width: 50px;"></p>
-            </section>
-
             <h2>NBA & Collectibles</h2>
             <main id="products">
                 
                 <div class="product-card" data-price="380.00" data-name="Nike Kobe 6 Protro (Grinch)" data-id="K6G">
-                    <img src="http://googleusercontent.com/image_generation_content/0" alt="Nike Kobe 6 Protro basketball shoe">
+                    <img src="https://via.placeholder.com/200x200?text=Kobe+Grinch" alt="Kobe 6">
                     <h3>Nike Kobe 6 Protro (Grinch Colorway)</h3>
                     <p class="rating">⭐⭐⭐⭐⭐ (2,450)</p>
-                    <p class="stock in">Rare Find - Available Now</p>
                     <p class="price">$380.00</p>
                     <button onclick="addToCart(this)">Add to Cart</button>
-                    <button style="background-color: #ffa500; border: 1px solid #ff8c00; margin-top: 5px;">Buy Now</button>
                 </div>
 
                 <div class="product-card" data-price="185.00" data-name="Official NBA Game Ball" data-id="NBAGB">
-                    <img src="http://googleusercontent.com/image_generation_content/0" alt="Official Wilson NBA game ball">
+                    <img src="https://via.placeholder.com/200x200?text=Wilson+Ball" alt="NBA Ball">
                     <h3>Official NBA Game Ball (Wilson)</h3>
                     <p class="rating">⭐⭐⭐⭐ (1,120)</p>
-                    <p class="stock in">Available Immediately</p>
                     <p class="price">$185.00</p>
                     <button onclick="addToCart(this)">Add to Cart</button>
-                    <button style="background-color: #ffa500; border: 1px solid #ff8c00; margin-top: 5px;">Buy Now</button>
                 </div>
                 
                 <div class="product-card" data-price="299.99" data-name="MJ #23 Authentic Jersey" data-id="J23A">
-                    <img src="http://googleusercontent.com/image_generation_content/0" alt="Michael Jordan Chicago Bulls #23 jersey">
+                    <img src="https://via.placeholder.com/200x200?text=Jordan+Jersey" alt="Jordan Jersey">
                     <h3>Michael Jordan #23 Authentic Jersey (Bulls)</h3>
                     <p class="rating">⭐⭐⭐⭐⭐ (450)</p>
-                    <p class="stock low">Limited Edition Size Run</p>
                     <p class="price">$299.99</p>
                     <button onclick="addToCart(this)">Add to Cart</button>
-                    <button style="background-color: #ffa500; border: 1px solid #ff8c00; margin-top: 5px;">Buy Now</button>
-                </div>
-                
-                <div class="product-card" data-price="550.00" data-name="Air Jordan 1 Retro High OG" data-id="AJ1">
-                    <img src="http://googleusercontent.com/image_generation_content/0" alt="Air Jordan 1 Retro High OG sneaker">
-                    <h3>Air Jordan 1 Retro High OG (Banned Colorway)</h3>
-                    <p class="rating">⭐⭐⭐⭐⭐ (780)</p>
-                    <p class="stock in">Verified Authentic Resale</p>
-                    <p class="price">$550.00</p>
-                    <button onclick="addToCart(this)">Add to Cart</button>
-                    <button style="background-color: #ffa500; border: 1px solid #ff8c00; margin-top: 5px;">Buy Now</button>
                 </div>
 
             </main>
         </div>
 
         <section id="sidebar-cart">
-            <h2>Your Cart (<span id="cart-count-sidebar">0</span> items)</h2>
+            <h2>Your Cart (<span id="cart-count-sidebar">0</span>)</h2>
             
             <div id="cart-summary-display">
                 <ul class="cart-item-list" id="cart-item-list">
-                    <li>Your cart is currently empty.</li>
+                    <li>Your cart is empty.</li>
                 </ul>
-                
-                <hr>
-
                 <div class="total-line"><span>Subtotal:</span> <span id="subtotal-display">$0.00</span></div>
-                <div class="total-line"><span>Shipping:</span> <span id="shipping-display">$5.00</span></div>
-                
-                <div class="grand-total total-line"><span>Order Total:</span> <span id="total-price-display">$5.00</span></div>
+                <div class="grand-total total-line"><span>Total:</span> <span id="total-price-display">$5.00</span></div>
             </div>
 
-            <form action="#" onsubmit="return false;" id="checkout-form">
-                
-                <fieldset style="margin-top: 20px; padding: 10px; font-size: 0.9em; border: 1px solid #ddd;">
-                    <legend style="font-size: 1em;">Contact Info for Order</legend>
-                    <input type="email" id="checkout-email" placeholder="Enter Email for Secure Contact" required style="width: 90%; padding: 8px; margin-top: 5px;">
-                </fieldset>
-                
-                <div id="hidden-fields-container"></div>
-                
-                <button type="button" class="checkout-btn" onclick="simulateCheckout()">Proceed to Checkout (Simulated)</button>
-            </form>
+            <div style="margin-top: 20px;">
+                <label for="checkout-email" style="font-size: 0.9em;">Email Receipt to:</label>
+                <input type="email" id="checkout-email" placeholder="Enter your email" required style="width: 100%; padding: 10px; margin-top: 5px; box-sizing: border-box;">
+                <button type="button" class="checkout-btn" onclick="processCheckout()">Complete Purchase & Send Email</button>
+            </div>
 
-            <form action="https://formsubmit.co/YOUR_REAL_EMAIL_ADDRESS_HERE" method="POST" class="simple-email-form">
-                <h3>Test Real Email Delivery</h3>
-                
-                <input type="hidden" name="_subject" value="Simple Test Email Received!">
-                
-                <input type="email" name="Test_Email_Address" placeholder="Enter an address to send this test to" required>
-                
-                <input type="hidden" name="_next" value="https://example.com/thank-you.html">
-                
-                <button type="submit">Send Test Email</button>
+            <form id="hidden-email-form" method="POST" style="display:none;">
+                <input type="hidden" name="_subject" value="Order Receipt - The Black Market">
+                <input type="hidden" name="Order_Summary" id="form-order-summary">
+                <input type="hidden" name="Total_Amount" id="form-total">
+                <input type="hidden" name="_template" value="table">
             </form>
-            </section>
+        </section>
     </div>
 
     <script>
@@ -252,99 +187,63 @@
             const totalElement = document.getElementById('total-price-display');
             const cartCountSidebar = document.getElementById('cart-count-sidebar');
 
-            let totalCost = 0;
+            let subtotal = 0;
             const itemMap = {};
 
-            // 1. Calculate and Group items
-            for (const item of cart) {
-                if (itemMap[item.id]) {
-                    itemMap[item.id].quantity++;
-                } else {
-                    itemMap[item.id] = { ...item, quantity: 1 };
-                }
-                totalCost += item.price;
+            cart.forEach(item => {
+                if (itemMap[item.id]) { itemMap[item.id].qty++; }
+                else { itemMap[item.id] = { ...item, qty: 1 }; }
+                subtotal += item.price;
+            });
+
+            let itemsHtml = cart.length === 0 ? `<li>Your cart is empty.</li>` : "";
+            for (const id in itemMap) {
+                const item = itemMap[id];
+                itemsHtml += `<li><span>${item.name} (x${item.qty})</span> <span>$${(item.price * item.qty).toFixed(2)}</span></li>`;
             }
 
-            // 2. Render item list HTML
-            let itemsHtml = ``;
-            if (cart.length === 0) {
-                itemsHtml = `<li>Your cart is currently empty.</li>`;
-            } else {
-                for (const id in itemMap) {
-                    const item = itemMap[id];
-                    const itemTotal = item.price * item.quantity;
-                    itemsHtml += `<li><span>${item.name} (x${item.quantity})</span> <span>$${itemTotal.toFixed(2)}</span></li>`;
-                }
-            }
             listElement.innerHTML = itemsHtml;
-            
-            // 3. Update summary numbers
-            const grandTotal = totalCost + SHIPPING_FEE;
-            
-            subtotalElement.textContent = `$${totalCost.toFixed(2)}`;
-            totalElement.textContent = `$${grandTotal.toFixed(2)}`;
+            subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+            totalElement.textContent = `$${(subtotal + SHIPPING_FEE).toFixed(2)}`;
             cartCountSidebar.textContent = cart.length;
         }
 
-        // Function to add a product to the cart array
         function addToCart(button) {
             const card = button.closest('.product-card');
-            const price = parseFloat(card.dataset.price);
-            const name = card.dataset.name;
-            const id = card.dataset.id;
-
-            cart.push({ id, name, price });
+            cart.push({ 
+                id: card.dataset.id, 
+                name: card.dataset.name, 
+                price: parseFloat(card.dataset.price) 
+            });
             updateCartDisplay();
-            
-            button.textContent = 'Added!'; 
-            setTimeout(() => {
-                button.textContent = 'Add to Cart';
-            }, 800);
+            button.textContent = 'Added!';
+            setTimeout(() => { button.textContent = 'Add to Cart'; }, 800);
         }
 
-        // Function to simulate the checkout process (uses JS alert/log, NOT real email)
-        function simulateCheckout() {
+        function processCheckout() {
             const email = document.getElementById('checkout-email').value;
             const total = document.getElementById('total-price-display').textContent;
             
-            if (cart.length === 0) {
-                alert("Your cart is empty. Please add items.");
-                return;
-            }
+            if (cart.length === 0) return alert("Cart is empty!");
+            if (!email.includes('@')) return alert("Please enter a valid email!");
 
-            if (!email || !email.includes('@')) {
-                alert("Please enter a valid email address for the order confirmation.");
-                return;
-            }
+            // 1. Format the cart items for the email
+            let summaryText = cart.map(item => `${item.name} ($${item.price})`).join(", ");
 
-            // --- Server-Side Simulation (Logged to Console) ---
-            const orderSummary = {
-                email: email,
-                total: total,
-                items: cart.map(item => ({ id: item.id, name: item.name, price: item.price })),
-                timestamp: new Date().toISOString()
-            };
+            // 2. Prepare the hidden form
+            const form = document.getElementById('hidden-email-form');
+            document.getElementById('form-order-summary').value = summaryText;
+            document.getElementById('form-total').value = total;
             
-            console.log("--- ORDER SUBMITTED ---");
-            console.log("Buyer Email:", orderSummary.email);
-            console.log("Order Data (for server):", orderSummary);
-            console.log("-----------------------");
+            // 3. Set the form action to the user's email so THEY receive it
+            form.action = `https://formsubmit.co/${email}`;
+
+            alert("Processing... You will be redirected to confirm your receipt.");
             
-            alert(`
-                ✨ ORDER PROCESSED (Simulation) ✨
-
-                Confirmation email simulated to be sent to:
-                ${email}
-
-                Order Total: ${total}
-            `);
-            // Reset the cart after "checkout"
-            cart.length = 0;
-            updateCartDisplay();
-            document.getElementById('checkout-email').value = '';
+            // 4. Send it!
+            form.submit();
         }
 
-        // Initial setup
         updateCartDisplay();
     </script>
 </body>
