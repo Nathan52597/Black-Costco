@@ -3,256 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Market | Sports Collectibles Demo</title>
+    <title>Black Market | Sports Collectibles</title>
     <style>
         :root {
-            --primary-color: #ff9900; 
-            --secondary-color: #232f3e; 
-            --light-bg: #f3f3f3; 
-            --text-color: #111111;
-            --card-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        }
-        body { 
-            font-family: Arial, sans-serif; 
-            line-height: 1.4; 
-            margin: 0; 
-            padding: 0; 
-            background-color: var(--light-bg); 
-            color: var(--text-color); 
-        }
-        header { 
-            background-color: var(--secondary-color); 
-            color: white; 
-            padding: 10px 0; 
-            text-align: center; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2); 
-        }
-        header h1 { margin: 0; font-size: 2.5em; color: var(--primary-color); }
-        .container { 
-            max-width: 1400px; 
-            margin: 20px auto; 
-            padding: 0 10px; 
-            display: flex; 
-            gap: 20px;
+            --primary: #ff9900;
+            --primary-hover: #e68a00;
+            --secondary: #232f3e;
+            --bg-light: #f8f9fa;
+            --text-dark: #1a1a1a;
+            --accent-red: #B12704;
+            --border-color: #ddd;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
-        /* Layout Structure */
-        #main-content { flex-grow: 3; min-width: 70%; }
-        #sidebar-cart { 
-            flex-grow: 1; 
-            min-width: 300px; 
-            max-width: 350px; 
-            background: white; 
-            padding: 20px; 
-            border-radius: 4px; 
-            box-shadow: var(--card-shadow); 
-            position: sticky; 
-            top: 20px; 
-            align-self: flex-start;
+        * { box-sizing: border-box; }
+
+        body { 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+            margin: 0; 
+            background-color: var(--bg-light); 
+            color: var(--text-dark);
         }
-        
-        /* Product Grid */
-        #products { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+
+        header { 
+            background: var(--secondary); 
+            color: white; 
+            padding: 1.5rem; 
+            text-align: center; 
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 { margin: 0; letter-spacing: 1px; font-weight: 300; }
+        header b { color: var(--primary); font-weight: 800; }
+
+        .container { 
+            max-width: 1200px; 
+            margin: 2rem auto; 
+            padding: 0 20px; 
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
+            #sidebar-cart { position: static; }
+        }
+
+        /* Products Section */
+        #products { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+            gap: 20px; 
+        }
+
         .product-card { 
             background: white; 
-            padding: 15px; 
-            border-radius: 4px; 
-            box-shadow: var(--card-shadow); 
-            transition: box-shadow 0.3s;
-            display: flex; flex-direction: column; 
-            height: 100%;
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: var(--shadow);
+            display: flex; 
+            flex-direction: column;
+            transition: transform 0.2s;
         }
-        .product-card:hover { box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
-        
+
+        .product-card:hover { transform: translateY(-5px); }
+
         .product-card img { 
-            max-width: 100%; 
+            width: 100%; 
             height: 200px; 
             object-fit: contain; 
-            margin-bottom: 10px;
-            background-color: #eee; 
-            border: 1px dashed #ccc;
-            display: block; 
-            text-align: center; 
-            line-height: 200px; 
-            color: #666;
-            font-size: 0.9em;
+            margin-bottom: 15px;
         }
-        .product-card h3 { font-size: 1.1em; color: #007185; margin: 5px 0; flex-grow: 1;}
-        .price { font-weight: bold; color: #B12704; font-size: 1.3em; margin: 10px 0; }
-        .rating { color: var(--primary-color); font-size: 0.9em; margin-bottom: 5px; }
-        
+
+        .product-card h3 { font-size: 1rem; margin: 0 0 10px 0; height: 3rem; overflow: hidden; }
+        .price { font-size: 1.4rem; font-weight: bold; color: var(--accent-red); margin: 5px 0; }
+        .rating { color: var(--primary); font-size: 0.85rem; }
+
         /* Buttons */
         button { 
-            background-color: #ffd814; 
-            color: var(--text-color); 
-            padding: 8px 15px; 
-            border: 1px solid #fcd200; 
-            border-radius: 3px; 
             cursor: pointer; 
-            font-size: 1em; 
-            transition: opacity 0.3s; 
+            border: none; 
+            border-radius: 4px; 
+            font-weight: 600; 
+            transition: 0.2s;
+        }
+
+        .btn-add { 
+            background: var(--primary); 
+            padding: 10px; 
+            width: 100%; 
+            margin-top: auto;
+        }
+        .btn-add:hover { background: var(--primary-hover); }
+
+        /* Cart Sidebar */
+        #sidebar-cart { 
+            background: white; 
+            padding: 25px; 
+            border-radius: 8px; 
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+
+        .btn-remove {
+            background: none;
+            color: #999;
+            font-size: 0.7rem;
+            text-decoration: underline;
+        }
+        .btn-remove:hover { color: var(--accent-red); }
+
+        .summary-row { display: flex; justify-content: space-between; margin: 10px 0; }
+        .total-row { 
+            border-top: 2px solid #eee; 
+            padding-top: 15px; 
+            font-weight: bold; 
+            font-size: 1.2rem; 
+            color: var(--accent-red);
+        }
+
+        .checkout-input {
             width: 100%;
-            margin-top: 10px;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
         }
-        button:hover { opacity: 0.9; }
 
-        /* Cart/Checkout */
-        .cart-item-list { list-style: none; padding: 0; margin: 10px 0; font-size: 0.9em; }
-        .cart-item-list li { margin-bottom: 5px; display: flex; justify-content: space-between; }
-        .total-line { display: flex; justify-content: space-between; font-size: 1.1em; padding-top: 10px; border-top: 1px dashed #ccc; }
-        .grand-total { font-weight: bold; font-size: 1.6em; color: #B12704; margin-top: 10px; }
-
-        .checkout-btn {
-            background-color: #4CAF50; 
+        .btn-checkout {
+            width: 100%;
+            padding: 15px;
+            background: #2ecc71;
             color: white;
-            border: 1px solid #388E3C;
-            margin-top: 15px;
+            font-size: 1rem;
         }
-        .checkout-btn:hover { background-color: #388E3C; }
+        .btn-checkout:hover { background: #27ae60; }
+        .btn-checkout:disabled { background: #ccc; cursor: not-allowed; }
+
     </style>
 </head>
 <body>
 
     <header>
-        <h1><span style="color: white; font-weight: normal;">THE</span> BLACK MARKET</h1>
+        <h1>THE <b>BLACK MARKET</b></h1>
     </header>
 
     <div class="container">
-        
-        <div id="main-content">
-            <h2>NBA & Collectibles</h2>
-            <main id="products">
-                
-                <div class="product-card" data-price="380.00" data-name="Nike Kobe 6 Protro (Grinch)" data-id="K6G">
-                    <img src="https://via.placeholder.com/200x200?text=Kobe+Grinch" alt="Kobe 6">
-                    <h3>Nike Kobe 6 Protro (Grinch Colorway)</h3>
-                    <p class="rating">⭐⭐⭐⭐⭐ (2,450)</p>
-                    <p class="price">$380.00</p>
-                    <button onclick="addToCart(this)">Add to Cart</button>
+        <main>
+            <h2 style="margin-top: 0;">NBA & Collectibles</h2>
+            <div id="products">
                 </div>
+        </main>
 
-                <div class="product-card" data-price="185.00" data-name="Official NBA Game Ball" data-id="NBAGB">
-                    <img src="https://via.placeholder.com/200x200?text=Wilson+Ball" alt="NBA Ball">
-                    <h3>Official NBA Game Ball (Wilson)</h3>
-                    <p class="rating">⭐⭐⭐⭐ (1,120)</p>
-                    <p class="price">$185.00</p>
-                    <button onclick="addToCart(this)">Add to Cart</button>
+        <aside id="sidebar-cart">
+            <h2 style="margin-top:0">Your Cart (<span id="count">0</span>)</h2>
+            <div id="cart-items">
                 </div>
-                
-                <div class="product-card" data-price="299.99" data-name="MJ #23 Authentic Jersey" data-id="J23A">
-                    <img src="https://via.placeholder.com/200x200?text=Jordan+Jersey" alt="Jordan Jersey">
-                    <h3>Michael Jordan #23 Authentic Jersey (Bulls)</h3>
-                    <p class="rating">⭐⭐⭐⭐⭐ (450)</p>
-                    <p class="price">$299.99</p>
-                    <button onclick="addToCart(this)">Add to Cart</button>
-                </div>
-
-            </main>
-        </div>
-
-        <section id="sidebar-cart">
-            <h2>Your Cart (<span id="cart-count-sidebar">0</span>)</h2>
             
-            <div id="cart-summary-display">
-                <ul class="cart-item-list" id="cart-item-list">
-                    <li>Your cart is empty.</li>
-                </ul>
-                <div class="total-line"><span>Subtotal:</span> <span id="subtotal-display">$0.00</span></div>
-                <div class="grand-total total-line"><span>Total:</span> <span id="total-price-display">$5.00</span></div>
+            <div class="summary-row" style="margin-top: 20px;">
+                <span>Subtotal</span>
+                <span id="subtotal">$0.00</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping</span>
+                <span id="shipping">$5.00</span>
+            </div>
+            <div class="summary-row total-row">
+                <span>Total</span>
+                <span id="total">$5.00</span>
             </div>
 
-            <div style="margin-top: 20px;">
-                <label for="checkout-email" style="font-size: 0.9em;">Email Receipt to:</label>
-                <input type="email" id="checkout-email" placeholder="Enter your email" required style="width: 100%; padding: 10px; margin-top: 5px; box-sizing: border-box;">
-                <button type="button" class="checkout-btn" onclick="processCheckout()">Complete Purchase & Send Email</button>
-            </div>
-
-            <form id="hidden-email-form" method="POST" style="display:none;">
-                <input type="hidden" name="_subject" value="New Order Receipt - The Black Market">
-                <input type="hidden" name="Order_Summary" id="form-order-summary">
-                <input type="hidden" name="Total_Amount" id="form-total">
-                <input type="email" name="customer_email" id="form-customer-email">
-                <input type="hidden" name="_template" value="table">
-            </form>
-        </section>
+            <input type="email" id="email" class="checkout-input" placeholder="Email for receipt" required>
+            <button class="btn-checkout" onclick="checkout()" id="checkout-btn">Complete Purchase</button>
+            
+            <form id="hidden-form" method="POST" style="display:none;"></form>
+        </aside>
     </div>
 
     <script>
-        const cart = [];
-        const SHIPPING_FEE = 5.00;
-        
-        function updateCartDisplay() {
-            const listElement = document.getElementById('cart-item-list');
-            const subtotalElement = document.getElementById('subtotal-display');
-            const totalElement = document.getElementById('total-price-display');
-            const cartCountSidebar = document.getElementById('cart-count-sidebar');
+        // 1. Data Structure - Easier to add items here than in HTML
+        const PRODUCTS = [
+            { id: 'K6G', name: 'Nike Kobe 6 Protro (Grinch)', price: 380.00, rating: 5, reviews: 2450, img: 'https://ofour.com/wp-content/uploads/2020/12/img19.jpg' },
+            { id: 'NBAGB', name: 'Official NBA Game Ball (Wilson)', price: 185.00, rating: 4, reviews: 1120, img: 'https://i5.walmartimages.com/seo/Wilson-NBA-DRV-Pro-Basketball_c86a96cc-cd0f-4899-9237-feff2bca7c03.38448f8503a51b8b3e84a1c589cf9d7f.jpeg' },
+            { id: 'J23A', name: 'Michael Jordan #23 Authentic Jersey', price: 299.99, rating: 5, reviews: 450, img: 'https://shop.bulls.com/cdn/shop/files/BULLMZ2310D.jpg?v=1695843677&width=1206' }
+        ];
 
-            let subtotal = 0;
-            const itemMap = {};
+        let cart = [];
+        const SHIPPING = 5.00;
 
-            cart.forEach(item => {
-                if (itemMap[item.id]) { itemMap[item.id].qty++; }
-                else { itemMap[item.id] = { ...item, qty: 1 }; }
-                subtotal += item.price;
-            });
+        // 2. Initialize Store
+        function initStore() {
+            const productGrid = document.getElementById('products');
+            productGrid.innerHTML = PRODUCTS.map(p => `
+                <div class="product-card">
+                    <img src="${p.img}" alt="${p.name}">
+                    <div class="rating">${'⭐'.repeat(p.rating)} (${p.reviews})</div>
+                    <h3>${p.name}</h3>
+                    <p class="price">$${p.price.toFixed(2)}</p>
+                    <button class="btn-add" onclick="addToCart('${p.id}')">Add to Cart</button>
+                </div>
+            `).join('');
+            renderCart();
+        }
 
-            let itemsHtml = cart.length === 0 ? `<li>Your cart is empty.</li>` : "";
-            for (const id in itemMap) {
-                const item = itemMap[id];
-                itemsHtml += `<li><span>${item.name} (x${item.qty})</span> <span>$${(item.price * item.qty).toFixed(2)}</span></li>`;
+        // 3. Cart Logic
+        function addToCart(id) {
+            const item = PRODUCTS.find(p => p.id === id);
+            const existing = cart.find(c => c.id === id);
+            
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ ...item, qty: 1 });
+            }
+            renderCart();
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `<p style="color:#999; text-align:center;">Your cart is empty.</p>`;
+                checkoutBtn.disabled = true;
+            } else {
+                container.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div>
+                            <b>${item.name}</b><br>
+                            <small>${item.qty} x $${item.price.toFixed(2)}</small>
+                            <button class="btn-remove" onclick="removeFromCart('${item.id}')">Remove</button>
+                        </div>
+                        <span>$${(item.qty * item.price).toFixed(2)}</span>
+                    </div>
+                `).join('');
+                checkoutBtn.disabled = false;
             }
 
-            listElement.innerHTML = itemsHtml;
-            subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
-            totalElement.textContent = `$${(subtotal + SHIPPING_FEE).toFixed(2)}`;
-            cartCountSidebar.textContent = cart.length;
+            const sub = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            document.getElementById('subtotal').textContent = `$${sub.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${(sub > 0 ? sub + SHIPPING : 0).toFixed(2)}`;
+            document.getElementById('count').textContent = cart.reduce((acc, i) => acc + i.qty, 0);
         }
 
-        function addToCart(button) {
-            const card = button.closest('.product-card');
-            cart.push({ 
-                id: card.dataset.id, 
-                name: card.dataset.name, 
-                price: parseFloat(card.dataset.price) 
-            });
-            updateCartDisplay();
-            button.textContent = 'Added!';
-            setTimeout(() => { button.textContent = 'Add to Cart'; }, 800);
-        }
+        // 4. Checkout Logic
+        function checkout() {
+            const email = document.getElementById('email').value;
+            if (!email.includes('@')) return alert("Enter a valid email");
 
-        function processCheckout() {
-            const emailInput = document.getElementById('checkout-email').value;
-            const total = document.getElementById('total-price-display').textContent;
+            const summary = cart.map(i => `${i.name} (x${i.qty})`).join(', ');
+            const total = document.getElementById('total').textContent;
+
+            // Prepare FormSubmit
+            const form = document.getElementById('hidden-form');
+            form.action = `https://formsubmit.co/YOUR_EMAIL@HERE.COM`; // Update this!
+            form.innerHTML = `
+                <input type="hidden" name="Items" value="${summary}">
+                <input type="hidden" name="Total_Paid" value="${total}">
+                <input type="email" name="email" value="${email}">
+                <input type="hidden" name="_template" value="table">
+            `;
             
-            if (cart.length === 0) return alert("Cart is empty!");
-            if (!emailInput.includes('@')) return alert("Please enter a valid email!");
-
-            // 1. Group items for a cleaner summary
-            const itemMap = {};
-            cart.forEach(item => {
-                itemMap[item.name] = (itemMap[item.name] || 0) + 1;
-            });
-            let summaryText = Object.entries(itemMap)
-                .map(([name, qty]) => `${name} (x${qty})`)
-                .join(", ");
-
-            // 2. Prepare the hidden form
-            const form = document.getElementById('hidden-email-form');
-            document.getElementById('form-order-summary').value = summaryText;
-            document.getElementById('form-total').value = total;
-            document.getElementById('form-customer-email').value = emailInput;
-            
-            // 3. SET YOUR EMAIL HERE to receive the notifications
-            // Replace 'YOUR_EMAIL@HERE.COM' with your real email address
-            form.action = `https://formsubmit.co/YOUR_EMAIL@HERE.COM`;
-
-            alert("Processing... Please confirm the recaptcha on the next page to finish.");
-            
-            // 4. Send it!
+            alert("Redirecting to secure payment confirmation...");
             form.submit();
         }
 
-        updateCartDisplay();
+        initStore();
     </script>
 </body>
 </html>
