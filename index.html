@@ -80,7 +80,6 @@
         .product-card h3 { font-size: 1.1em; color: #007185; margin: 5px 0; flex-grow: 1;}
         .price { font-weight: bold; color: #B12704; font-size: 1.3em; margin: 10px 0; }
         .rating { color: var(--primary-color); font-size: 0.9em; margin-bottom: 5px; }
-        .stock { font-size: 0.9em; margin-bottom: 10px; font-weight: bold; }
         
         /* Buttons */
         button { 
@@ -169,9 +168,10 @@
             </div>
 
             <form id="hidden-email-form" method="POST" style="display:none;">
-                <input type="hidden" name="_subject" value="Order Receipt - The Black Market">
+                <input type="hidden" name="_subject" value="New Order Receipt - The Black Market">
                 <input type="hidden" name="Order_Summary" id="form-order-summary">
                 <input type="hidden" name="Total_Amount" id="form-total">
+                <input type="email" name="customer_email" id="form-customer-email">
                 <input type="hidden" name="_template" value="table">
             </form>
         </section>
@@ -221,24 +221,32 @@
         }
 
         function processCheckout() {
-            const email = document.getElementById('checkout-email').value;
+            const emailInput = document.getElementById('checkout-email').value;
             const total = document.getElementById('total-price-display').textContent;
             
             if (cart.length === 0) return alert("Cart is empty!");
-            if (!email.includes('@')) return alert("Please enter a valid email!");
+            if (!emailInput.includes('@')) return alert("Please enter a valid email!");
 
-            // 1. Format the cart items for the email
-            let summaryText = cart.map(item => `${item.name} ($${item.price})`).join(", ");
+            // 1. Group items for a cleaner summary
+            const itemMap = {};
+            cart.forEach(item => {
+                itemMap[item.name] = (itemMap[item.name] || 0) + 1;
+            });
+            let summaryText = Object.entries(itemMap)
+                .map(([name, qty]) => `${name} (x${qty})`)
+                .join(", ");
 
             // 2. Prepare the hidden form
             const form = document.getElementById('hidden-email-form');
             document.getElementById('form-order-summary').value = summaryText;
             document.getElementById('form-total').value = total;
+            document.getElementById('form-customer-email').value = emailInput;
             
-            // 3. Set the form action to the user's email so THEY receive it
-            form.action = `https://formsubmit.co/${email}`;
+            // 3. SET YOUR EMAIL HERE to receive the notifications
+            // Replace 'YOUR_EMAIL@HERE.COM' with your real email address
+            form.action = `https://formsubmit.co/YOUR_EMAIL@HERE.COM`;
 
-            alert("Processing... You will be redirected to confirm your receipt.");
+            alert("Processing... Please confirm the recaptcha on the next page to finish.");
             
             // 4. Send it!
             form.submit();
