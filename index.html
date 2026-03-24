@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Black Market | Sports Collectibles</title>
     <style>
-        : root {
+        /* FIXED: Removed the space between ":" and "root" */
+        :root {
             --primary: #ff9900;
             --primary-hover: #e68a00;
             --secondary: #232f3e;
@@ -52,7 +53,6 @@
             #sidebar-cart { position: static; }
         }
 
-        /* Products Section */
         #products { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
@@ -82,7 +82,6 @@
         .price { font-size: 1.4rem; font-weight: bold; color: var(--accent-red); margin: 5px 0; }
         .rating { color: var(--primary); font-size: 0.85rem; }
 
-        /* Buttons */
         button { 
             cursor: pointer; 
             border: none; 
@@ -99,7 +98,6 @@
         }
         .btn-add:hover { background: var(--primary-hover); }
 
-        /* Cart Sidebar */
         #sidebar-cart { 
             background: white; 
             padding: 25px; 
@@ -153,7 +151,6 @@
         }
         .btn-checkout:hover { background: #27ae60; }
         .btn-checkout:disabled { background: #ccc; cursor: not-allowed; }
-
     </style>
 </head>
 <body>
@@ -165,14 +162,12 @@
     <div class="container">
         <main>
             <h2 style="margin-top: 0;">NBA & Collectibles</h2>
-            <div id="products">
-                </div>
+            <div id="products"></div>
         </main>
 
         <aside id="sidebar-cart">
             <h2 style="margin-top:0">Your Cart (<span id="count">0</span>)</h2>
-            <div id="cart-items">
-                </div>
+            <div id="cart-items"></div>
             
             <div class="summary-row" style="margin-top: 20px;">
                 <span>Subtotal</span>
@@ -195,18 +190,16 @@
     </div>
 
     <script>
-        // 1. Data Structure - Easier to add items here than in HTML
         const PRODUCTS = [
             { id: 'K6G', name: 'Nike Kobe 6 Protro (Grinch)', price: 380.00, rating: 5, reviews: 2450, img: 'https://ofour.com/wp-content/uploads/2020/12/img19.jpg' },
             { id: 'NBAGB', name: 'Official NBA Game Ball (Wilson)', price: 185.00, rating: 4, reviews: 1120, img: 'https://i5.walmartimages.com/seo/Wilson-NBA-DRV-Pro-Basketball_c86a96cc-cd0f-4899-9237-feff2bca7c03.38448f8503a51b8b3e84a1c589cf9d7f.jpeg' },
-            { id: 'J23A', name: 'Michael Jordan #23 Authentic Jersey', price: 299.99, rating: 5, reviews: 450, img: 'https://shop.bulls.com/cdn/shop/files/BULLMZ2310D.jpg?v=1695843677&width=1206' }
-            { id: 'KBAV', name: 'Kobe Bryant Avatar (Roblox)', price: 45.00, rating: 5, reviews: 890, img: 'https://tr.rbxcdn.com/180DAY-73c781c977f366142fb01166669d03c6/420/420/Hat/Webp/noFilter' }
+            { id: 'J23A', name: 'Michael Jordan #23 Authentic Jersey', price: 299.99, rating: 5, reviews: 450, img: 'https://shop.bulls.com/cdn/shop/files/BULLMZ2310D.jpg?v=1695843677&width=1206' }, // FIXED: Added missing comma
+            { id: 'KBAV', name: 'Kobe Bryant Avatar (Roblox)', price: 45.00, rating: 5, reviews: 890, img: 'https://www.nicepng.com/png/full/251-2513470_kobe-bryant-png.png' }
         ];
 
         let cart = [];
         const SHIPPING = 5.00;
 
-        // 2. Initialize Store
         function initStore() {
             const productGrid = document.getElementById('products');
             productGrid.innerHTML = PRODUCTS.map(p => `
@@ -221,11 +214,9 @@
             renderCart();
         }
 
-        // 3. Cart Logic
         function addToCart(id) {
             const item = PRODUCTS.find(p => p.id === id);
             const existing = cart.find(c => c.id === id);
-            
             if (existing) {
                 existing.qty++;
             } else {
@@ -266,7 +257,6 @@
             document.getElementById('count').textContent = cart.reduce((acc, i) => acc + i.qty, 0);
         }
 
-        // 4. Checkout Logic
         function checkout() {
             const email = document.getElementById('email').value;
             if (!email.includes('@')) return alert("Enter a valid email");
@@ -274,9 +264,8 @@
             const summary = cart.map(i => `${i.name} (x${i.qty})`).join(', ');
             const total = document.getElementById('total').textContent;
 
-            // Prepare FormSubmit
             const form = document.getElementById('hidden-form');
-            form.action = `https://formsubmit.co/YOUR_EMAIL@HERE.COM`; // Update this!
+            form.action = `https://formsubmit.co/YOUR_EMAIL@HERE.COM`; 
             form.innerHTML = `
                 <input type="hidden" name="Items" value="${summary}">
                 <input type="hidden" name="Total_Paid" value="${total}">
